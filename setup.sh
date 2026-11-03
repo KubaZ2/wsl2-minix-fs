@@ -13,7 +13,7 @@ do
         -b|--build) build=y;;
         --branch) branch="$2"; shift;;
         --no-sudo) use_sudo=n;;
-        -h|--help) echo "usage: `basename "$0"` [-b|--build] [--branch <branch>]"; exit 0;;
+        -h|--help) echo "usage: `basename "$0"` [-b|--build] [--branch <branch>] [--no-sudo]"; exit 0;;
         *) echo "unknown option $1, exiting..." 1>&2; exit 1;;
     esac
     shift
