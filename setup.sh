@@ -3,11 +3,14 @@ set -e
 
 dir=`dirname "$0"`
 
+use_sudo=y
+
 while [ -n "$1" ]
 do
 	case "$1" in
 		-b|--build) build=y;;
 		--branch) branch="$2"; shift;;
+		--no-sudo) use_sudo=n;;
 		-h|--help) echo "usage: `basename "$0"` [-b|--build] [--branch <branch>]"; exit 0;;
 		*) echo "unknown option $1, exiting..." 1>&2; exit 1;;
 	esac
@@ -36,7 +39,7 @@ then
 	kernel_dir="$dir/wsl2-linux-kernel"
 
 	cleanup() {
-		echo "Cleaning up"
+		echo "Cleaning up..."
 		rm -rf "$kernel_dir"
 		echo "Finished cleaning up"
 	}
@@ -61,13 +64,20 @@ then
 	echo "Build finished"
 fi
 
-if sudo rmmod -f minix 1>/dev/null 2>&1
+if [ "$use_sudo" = "y" ]
+then
+	sudo="sudo"
+else
+	sudo=""
+fi
+
+if $sudo rmmod -f minix 1>/dev/null 2>&1
 then
 	echo "Unloaded module minix"
 fi
 
 echo "Loading module minix..."
 
-sudo insmod "$dir/minix.ko"
+$sudo insmod "$dir/minix.ko"
 
 echo "Loaded module minix"
