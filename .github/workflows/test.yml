@@ -1,0 +1,48 @@
+name: Test
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runs-on: windows-2025-vs2026
+
+    runs-on: ${{ matrix.runs-on }}
+
+    defaults:
+      run:
+        shell: wsl-bash
+
+    steps:
+      - name: Setup WSL
+        uses: Vampire/setup-wsl@4c48163d9f981914dd8caa0fc335fe19cca5bff4 # v7.2.0
+
+      - name: Checkout repository
+        env:
+          REPO: ${{ github.repository }}
+          REV: ${{ github.sha }}
+        run: |
+          mkdir workspace
+          cd workspace
+          git clone "https://github.com/$REPO.git" .
+          git checkout "$REV"
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential flex bison dwarves libssl-dev libelf-dev cpio qemu-utils rsync bc
+
+      - name: Setup minix filesystem
+        run: |
+          ./workspace/setup.sh
+
+      - name: Test
+        run: |
+          sudo ./workspace/test.sh
