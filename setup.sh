@@ -21,7 +21,7 @@ done
 
 if [ "$build" != "y" ] && [ ! -e "$dir/minix.ko" ]
 then
-    echo "minix.ko not found, assuming --build"
+    echo "File $dir/minix.ko not found, assuming --build"
     build=y
 fi
 
