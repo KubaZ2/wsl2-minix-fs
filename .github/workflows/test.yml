@@ -27,14 +27,11 @@ jobs:
           distribution: Ubuntu-26.04
 
       - name: Checkout repository
-        env:
-          REPO: ${{ github.repository }}
-          REV: ${{ github.sha }}
         run: |
           mkdir workspace
           cd workspace
-          git clone "https://github.com/$REPO.git" .
-          git checkout "$REV"
+          git clone "https://github.com/${{ github.repository }}.git" .
+          git checkout "${{ github.sha }}"
 
       - name: Install dependencies
         run: |
