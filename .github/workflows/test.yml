@@ -25,6 +25,7 @@ jobs:
         uses: Vampire/setup-wsl@4c48163d9f981914dd8caa0fc335fe19cca5bff4 # v7.2.0
         with:
           distribution: Ubuntu-26.04
+          wsl-shell-command: bash -c "cd && bash --noprofile --norc -euo pipefail '{0}'"
 
       - name: Checkout repository
         run: |
