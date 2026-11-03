@@ -31,7 +31,8 @@ jobs:
           mkdir workspace
           cd workspace
           git clone "https://github.com/${{ github.repository }}.git" .
-          git checkout "${{ github.sha }}"
+          git fetch origin "${{ github.ref }}"
+          git checkout FETCH_HEAD
 
       - name: Install dependencies
         run: |
