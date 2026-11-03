@@ -3,6 +3,8 @@ set -e
 
 dir=`dirname "$0"`
 
+build=n
+branch=""
 use_sudo=y
 
 while [ -n "$1" ]
