@@ -18,11 +18,13 @@ jobs:
 
     defaults:
       run:
-        shell: wsl-bash
+        shell: wsl-bash {0}
 
     steps:
       - name: Setup WSL
         uses: Vampire/setup-wsl@4c48163d9f981914dd8caa0fc335fe19cca5bff4 # v7.2.0
+        with:
+          distribution: Ubuntu-26.04
 
       - name: Checkout repository
         env:
