@@ -55,7 +55,14 @@ then
 
     echo "Building..."
 
-    cp "$kernel_dir/Microsoft/config-wsl" "$kernel_dir/.config"
+    arch=`uname -m`
+    case "$arch" in
+        x86_64) config_suffix="";;
+        aarch64) config_suffix="-arm64";;
+        *) echo "Unknown architecture $arch, exiting..." 1>&2; exit 1;;
+    esac
+
+    cp "$kernel_dir/Microsoft/config-wsl$config_suffix" "$kernel_dir/.config"
 
     (cd "$kernel_dir" && ./scripts/config -m CONFIG_MINIX_FS --refresh)
 
