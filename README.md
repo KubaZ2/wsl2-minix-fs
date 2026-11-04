@@ -16,13 +16,14 @@ sudo apt install build-essential flex bison dwarves libssl-dev \
 
 To use this project:
 
-- Clone the repository:
+- Clone the repository and enter it:
   ```bash
   git clone https://github.com/KubaZ2/wsl2-minix-fs.git
+  cd wsl2-minix-fs
   ```
 - And run the setup script:
   ```bash
-  ./wsl2-minix-fs/setup.sh
+  ./setup.sh
   ```
 
 On the first run, the script will automatically build and load the Minix kernel module. On subsequent runs, it will skip the build and just load the existing module by default.
@@ -40,7 +41,7 @@ After a reboot, you will need to rerun the setup script to load the Minix kernel
 
 After the setup script finishes, you can test the Minix filesystem mounts correctly by running the test script (it cleans up after itself):
 ```bash
-sudo ./wsl2-minix-fs/test.sh
+sudo ./test.sh
 ```
 
 ## Mounting a Minix filesystem
