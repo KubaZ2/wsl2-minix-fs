@@ -57,7 +57,7 @@ then
 
     cp "$kernel_dir/Microsoft/config-wsl" "$kernel_dir/.config"
 
-    (cd "$kernel_dir" && "./scripts/config" -m CONFIG_MINIX_FS --refresh)
+    (cd "$kernel_dir" && ./scripts/config -m CONFIG_MINIX_FS --refresh)
 
     make modules_prepare -j`nproc` -C "$kernel_dir"
 
