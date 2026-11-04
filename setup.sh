@@ -16,7 +16,7 @@ do
         --no-load) load=n;;
         --no-sudo) use_sudo=n;;
         -h|--help) echo "usage: `basename "$0"` [-b|--build] [--branch <branch>] [--no-load] [--no-sudo]"; exit 0;;
-        *) echo "unknown option $1, exiting..." 1>&2; exit 1;;
+        *) echo "unknown option $1, exiting..." >&2; exit 1;;
     esac
     shift
 done
@@ -59,7 +59,7 @@ then
     case "$arch" in
         x86_64) config_suffix="";;
         aarch64) config_suffix="-arm64";;
-        *) echo "Unknown architecture $arch, exiting..." 1>&2; exit 1;;
+        *) echo "Unknown architecture $arch, exiting..." >&2; exit 1;;
     esac
 
     cp "$kernel_dir/Microsoft/config-wsl$config_suffix" "$kernel_dir/.config"
@@ -88,7 +88,7 @@ else
     sudo=""
 fi
 
-if $sudo rmmod -f minix 1>/dev/null 2>&1
+if $sudo rmmod -f minix >/dev/null 2>&1
 then
     echo "Unloaded module minix"
 fi
