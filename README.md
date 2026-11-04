@@ -6,7 +6,7 @@ This project allows you to mount a Minix filesystem in WSL2 without manually reb
 
 These requirements are for Ubuntu, you may need to adjust them for other distributions.
 
-Install the required packages with
+Install the required packages with:
 ```bash
 sudo apt install build-essential flex bison dwarves libssl-dev \
                  libelf-dev cpio qemu-utils rsync bc util-linux-extra git
