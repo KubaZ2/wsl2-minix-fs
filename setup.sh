@@ -5,6 +5,7 @@ dir=`dirname "$0"`
 
 build=n
 branch=""
+load=y
 use_sudo=y
 
 while [ -n "$1" ]
@@ -12,8 +13,9 @@ do
     case "$1" in
         -b|--build) build=y;;
         --branch) branch="$2"; shift;;
+        --no-load) load=n;;
         --no-sudo) use_sudo=n;;
-        -h|--help) echo "usage: `basename "$0"` [-b|--build] [--branch <branch>] [--no-sudo]"; exit 0;;
+        -h|--help) echo "usage: `basename "$0"` [-b|--build] [--branch <branch>] [--no-load] [--no-sudo]"; exit 0;;
         *) echo "unknown option $1, exiting..." 1>&2; exit 1;;
     esac
     shift
@@ -64,6 +66,12 @@ then
     cp -f "$kernel_dir/fs/minix/minix.ko" "$dir"
 
     echo "Build finished"
+fi
+
+if [ "$load" != "y" ]
+then
+    echo "Skipping module load"
+    exit 0
 fi
 
 if [ "$use_sudo" = "y" ]

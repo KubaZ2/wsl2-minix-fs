@@ -24,11 +24,12 @@ To use this project:
   ./wsl2-minix-fs/setup.sh
   ```
 
-You may be prompted to enter your password for sudo access. The script will build the Minix kernel module and load it.
+On the first run, the script will automatically build and load the Minix kernel module. On subsequent runs, it will skip the build and just load the existing module by default.
 
 The setup script also accepts optional arguments:
 - `-b`/`--build`: Build the Minix kernel module (this is assumed to be specified when module is not already built). Specify this option if you want to rebuild the module (for example, if you updated the WSL2 kernel)
 - `--branch <branch>`: Specify a branch to build from (by default it is detected automatically based on your WSL2 kernel version)
+- `--no-load`: Do not load the Minix kernel module after building it
 - `--no-sudo`: Do not use sudo for commands
 - `-h`/`--help`: Show help message
 
