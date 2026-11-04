@@ -8,7 +8,8 @@ These requirements are for Ubuntu, you may need to adjust them for other distrib
 
 Install the required packages with
 ```bash
-sudo apt install build-essential flex bison dwarves libssl-dev libelf-dev cpio qemu-utils rsync bc util-linux-extra git
+sudo apt install build-essential flex bison dwarves libssl-dev \
+                 libelf-dev cpio qemu-utils rsync bc util-linux-extra git
 ```
 
 ## Usage
