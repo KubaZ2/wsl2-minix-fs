@@ -14,6 +14,15 @@ sudo apt install build-essential flex bison dwarves libssl-dev \
 
 ## Usage
 
+### With [Nix](https://nixos.org/download/#nix-install-windows)
+
+Just run the following command:
+```bash
+nix run github:KubaZ2/wsl2-minix-fs#setup
+```
+
+### Without Nix
+
 To use this project:
 
 - Clone the repository and enter it:
@@ -25,6 +34,8 @@ To use this project:
   ```bash
   ./setup.sh
   ```
+
+---
 
 On the first run, the script will automatically build and load the Minix kernel module. On subsequent runs, it will skip the build and just load the existing module by default.
 
@@ -40,8 +51,14 @@ After a reboot, you will need to rerun the setup script to load the Minix kernel
 ## Testing
 
 After the setup script finishes, you can test the Minix filesystem mounts correctly by running the test script (it cleans up after itself):
+### With Nix
 ```bash
-sudo ./test.sh
+nix run github:KubaZ2/wsl2-minix-fs#test
+```
+
+### Without Nix
+```bash
+./test.sh
 ```
 
 ## Mounting a Minix filesystem
