@@ -2,19 +2,11 @@
 
 This project allows you to mount a Minix filesystem in WSL2 without manually rebuilding the WSL2 kernel. It automatically builds and loads the Minix kernel module.
 
-## Requirements
-
-These requirements are for Ubuntu, you may need to adjust them for other distributions.
-
-Install the required packages with:
-```bash
-sudo apt install build-essential flex bison dwarves libssl-dev \
-                 libelf-dev cpio qemu-utils rsync bc util-linux-extra git
-```
-
 ## Usage
 
-### With [Nix](https://nixos.org/download/#nix-install-windows)
+The setup script can be run either with [Nix](https://nixos.org/download/#nix-install-windows) or without it. Nix is a package manager that allows you to run the setup script without installing any dependencies on your system. If you don't have Nix installed, you can follow the instructions below to set up the project manually.
+
+### With Nix
 
 Just run the following command:
 ```bash
@@ -23,8 +15,11 @@ nix run github:KubaZ2/wsl2-minix-fs#setup
 
 ### Without Nix
 
-To use this project:
-
+- Install the required packages (this is for Ubuntu, you may need to adjust the command for other distributions):
+  ```bash
+  sudo apt install build-essential flex bison dwarves libssl-dev \
+                   libelf-dev cpio qemu-utils rsync bc util-linux-extra git
+  ```
 - Clone the repository and enter it:
   ```bash
   git clone https://github.com/KubaZ2/wsl2-minix-fs.git
@@ -39,7 +34,7 @@ To use this project:
 
 On the first run, the script will automatically build and load the Minix kernel module. On subsequent runs, it will skip the build and just load the existing module by default.
 
-The setup script also accepts optional arguments:
+The setup script also accepts optional arguments (for Nix, they need to be prepended with `--`):
 - `-b`/`--build`: Build the Minix kernel module (this is assumed to be specified when module is not already built). Specify this option if you want to rebuild the module (for example, if you updated the WSL2 kernel)
 - `--branch <branch>`: Specify a branch to build from (by default it is detected automatically based on your WSL2 kernel version)
 - `--no-load`: Do not load the Minix kernel module after building it
