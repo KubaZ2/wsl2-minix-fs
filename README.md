@@ -64,7 +64,7 @@ The test script has an optional argument `--no-sudo` to avoid using sudo for com
 Assuming you have a Minix filesystem image (e.g., `minix.img`), you can mount it using the following commands:
 ```bash
 # Create a mount point
-sudo mkdir my-minix-mount
+mkdir my-minix-mount
 
 # Mount the Minix filesystem
 sudo mount -o loop minix.img my-minix-mount
