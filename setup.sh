@@ -56,12 +56,7 @@ if [ "$build" = "y" ]
 then
     if [ -z "$branch" ]
     then
-        prev_ifs=$IFS
-        IFS="-"
-        set -- $(uname -r)
-        branch="linux-msft-wsl-$1"
-        IFS="$prev_ifs"
-
+        branch="linux-msft-wsl-$(uname -r | cut -d "-" -f 1)"
         echo "Using automatically detected kernel version: $1"
     fi
 
