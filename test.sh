@@ -1,25 +1,18 @@
 #!/bin/sh
 set -e
 
-use_sudo=y
+sudo=sudo
 
 while [ $# -gt 0 ]
 do
     case "$1" in
-        --no-sudo) use_sudo=n;;
+        --no-sudo) sudo="";;
         *)
             echo "Unknown option '$1', exiting..." >&2
             exit 1;;
     esac
     shift
 done
-
-if [ "$use_sudo" = "y" ]
-then
-    sudo="sudo"
-else
-    sudo=""
-fi
 
 test_dir="/tmp/minix-fs-test"
 

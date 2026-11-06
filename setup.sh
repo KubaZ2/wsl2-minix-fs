@@ -6,7 +6,7 @@ program="$0"
 build=n
 branch=""
 load=y
-use_sudo=y
+sudo=sudo
 cache_dir=""
 
 while [ $# -gt 0 ]
@@ -22,7 +22,7 @@ do
             branch="$2"
             shift;;
         --no-load) load=n;;
-        --no-sudo) use_sudo=n;;
+        --no-sudo) sudo="";;
         --cache-dir)
             if [ $# -lt 2 ]
             then
@@ -99,13 +99,6 @@ if [ "$load" != "y" ]
 then
     echo "Skipping module load"
     exit 0
-fi
-
-if [ "$use_sudo" = "y" ]
-then
-    sudo="sudo"
-else
-    sudo=""
 fi
 
 if $sudo rmmod -f minix >/dev/null 2>&1
