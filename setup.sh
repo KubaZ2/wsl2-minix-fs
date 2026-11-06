@@ -35,7 +35,7 @@ do
             echo "Usage: $(basename "$0") [-b|--build] [--branch <branch>] [--no-load] [--no-sudo] [--cache-dir <dir>] [-h|--help]"
             exit 0;;
         *)
-            echo "Unknown option $1, exiting..." >&2
+            echo "Unknown option '$1', exiting..." >&2
             exit 1;;
     esac
     shift

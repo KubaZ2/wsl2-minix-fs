@@ -8,7 +8,7 @@ do
     case "$1" in
         --no-sudo) use_sudo=n;;
         *)
-            echo "Unknown option $1, exiting..." >&2
+            echo "Unknown option '$1', exiting..." >&2
             exit 1;;
     esac
     shift
