@@ -44,7 +44,7 @@ jobs:
 
       - name: Setup minix filesystem (Nix)
         if: ${{ matrix.use-nix }}
-        run: sudo nix run --ignore-env -k HOME ./workspace#setup -- --no-sudo
+        run: sudo $(which nix) run --ignore-env -k HOME ./workspace#setup -- --no-sudo
 
       - name: Install dependencies
         if: ${{ !matrix.use-nix }}
