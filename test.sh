@@ -1,12 +1,32 @@
 #!/bin/sh
 set -e
 
+use_sudo=y
+
+while [ $# -gt 0 ]
+do
+    case "$1" in
+        --no-sudo) use_sudo=n;;
+        *)
+            echo "Unknown option $1, exiting..." >&2
+            exit 1;;
+    esac
+    shift
+done
+
+if [ "$use_sudo" = "y" ]
+then
+    sudo="sudo"
+else
+    sudo=""
+fi
+
 test_dir="/tmp/minix-fs-test"
 
 cleanup() {
     echo "Cleaning up..."
 
-    umount "$test_dir/mnt" || true
+    $sudo umount "$test_dir/mnt" || true
     rm -rf "$test_dir"
 
     echo "Finished cleaning up"
@@ -21,7 +41,7 @@ mkfs.minix "$test_dir/minix.img"
 echo "Created minix filesystem image"
 
 mkdir -p "$test_dir/mnt"
-mount -o loop "$test_dir/minix.img" "$test_dir/mnt"
+$sudo mount -o loop "$test_dir/minix.img" "$test_dir/mnt"
 
 echo "Mounted minix filesystem image"
 

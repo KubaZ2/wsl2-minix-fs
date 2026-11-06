@@ -13,6 +13,9 @@ jobs:
       matrix:
         include:
           - runs-on: windows-2025-vs2026
+            use-nix: false
+          - runs-on: windows-2025-vs2026
+            use-nix: true
 
     runs-on: ${{ matrix.runs-on }}
 
@@ -35,15 +38,23 @@ jobs:
           git fetch origin "${{ github.ref }}"
           git checkout FETCH_HEAD
 
+      - name: Setup Nix
+        if: ${{ matrix.use-nix }}
+        run: curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install | sh -s -- --daemon
+
+      - name: Setup minix filesystem (Nix)
+        if: ${{ matrix.use-nix }}
+        run: sudo nix run --ignore-env -k HOME ./workspace#setup -- --no-sudo
+
       - name: Install dependencies
+        if: ${{ !matrix.use-nix }}
         run: |
           sudo apt update
           sudo apt install -y build-essential flex bison dwarves libssl-dev libelf-dev cpio qemu-utils rsync bc util-linux-extra
 
       - name: Setup minix filesystem
-        run: |
-          ./workspace/setup.sh
+        if: ${{ !matrix.use-nix }}
+        run: ./workspace/setup.sh
 
       - name: Test
-        run: |
-          sudo ./workspace/test.sh
+        run: ./workspace/test.sh

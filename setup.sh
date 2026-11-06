@@ -1,29 +1,54 @@
 #!/bin/sh
 set -e
 
-dir=`dirname "$0"`
+program="$0"
 
 build=n
 branch=""
 load=y
 use_sudo=y
+cache_dir=""
 
-while [ -n "$1" ]
+while [ $# -gt 0 ]
 do
     case "$1" in
         -b|--build) build=y;;
-        --branch) branch="$2"; shift;;
+        --branch)
+            if [ $# -lt 2 ]
+            then
+                echo "Missing argument for --branch, exiting..." >&2
+                exit 1
+            fi
+            branch="$2"
+            shift;;
         --no-load) load=n;;
         --no-sudo) use_sudo=n;;
-        -h|--help) echo "usage: `basename "$0"` [-b|--build] [--branch <branch>] [--no-load] [--no-sudo]"; exit 0;;
-        *) echo "unknown option $1, exiting..." >&2; exit 1;;
+        --cache-dir)
+            if [ $# -lt 2 ]
+            then
+                echo "Missing argument for --cache-dir, exiting..." >&2
+                exit 1
+            fi
+            cache_dir="$2"
+            shift;;
+        -h|--help)
+            echo "Usage: $(basename "$0") [-b|--build] [--branch <branch>] [--no-load] [--no-sudo] [--cache-dir <dir>] [-h|--help]"
+            exit 0;;
+        *)
+            echo "Unknown option $1, exiting..." >&2
+            exit 1;;
     esac
     shift
 done
 
-if [ "$build" != "y" ] && [ ! -e "$dir/minix.ko" ]
+if [ -z "$cache_dir" ]
 then
-    echo "File $dir/minix.ko not found, assuming --build"
+    cache_dir="$(dirname "$program")/cache"
+fi
+
+if [ "$build" != "y" ] && [ ! -e "$cache_dir/minix.ko" ]
+then
+    echo "File $cache_dir/minix.ko not found, assuming --build"
     build=y
 fi
 
@@ -33,14 +58,14 @@ then
     then
         prev_ifs=$IFS
         IFS="-"
-        set -- `uname -r`
+        set -- $(uname -r)
         branch="linux-msft-wsl-$1"
         IFS="$prev_ifs"
 
         echo "Using automatically detected kernel version: $1"
     fi
 
-    kernel_dir="$dir/wsl2-linux-kernel"
+    kernel_dir="$cache_dir/wsl2-linux-kernel"
 
     cleanup() {
         echo "Cleaning up..."
@@ -55,7 +80,7 @@ then
 
     echo "Building..."
 
-    arch=`uname -m`
+    arch=$(uname -m)
     case "$arch" in
         x86_64) config_suffix="";;
         aarch64) config_suffix="-arm64";;
@@ -66,11 +91,11 @@ then
 
     (cd "$kernel_dir" && ./scripts/config -m CONFIG_MINIX_FS --refresh)
 
-    make modules_prepare -j`nproc` -C "$kernel_dir"
+    make modules_prepare -j"$(nproc)" -C "$kernel_dir"
 
-    make M=fs/minix KBUILD_MODPOST_WARN=1 -j`nproc` -C "$kernel_dir"
+    make M=fs/minix KBUILD_MODPOST_WARN=1 -j"$(nproc)" -C "$kernel_dir"
 
-    cp -f "$kernel_dir/fs/minix/minix.ko" "$dir"
+    cp -f "$kernel_dir/fs/minix/minix.ko" "$cache_dir"
 
     echo "Build finished"
 fi
@@ -95,6 +120,6 @@ fi
 
 echo "Loading module minix..."
 
-$sudo insmod "$dir/minix.ko"
+$sudo insmod "$cache_dir/minix.ko"
 
 echo "Loaded module minix"
