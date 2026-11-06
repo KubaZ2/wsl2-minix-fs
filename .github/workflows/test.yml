@@ -38,14 +38,6 @@ jobs:
           git fetch origin "${{ github.ref }}"
           git checkout FETCH_HEAD
 
-      - name: Setup Nix
-        if: ${{ matrix.use-nix }}
-        run: curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install | sh -s -- --daemon
-
-      - name: Setup minix filesystem (Nix)
-        if: ${{ matrix.use-nix }}
-        run: sudo /nix/var/nix/profiles/default/bin/nix run --extra-experimental-features "nix-command flakes" --ignore-env -k HOME ./workspace#setup -- --no-sudo
-
       - name: Install dependencies
         if: ${{ !matrix.use-nix }}
         run: |
@@ -57,4 +49,17 @@ jobs:
         run: ./workspace/setup.sh
 
       - name: Test
+        if: ${{ !matrix.use-nix }}
         run: ./workspace/test.sh
+
+      - name: Setup Nix
+        if: ${{ matrix.use-nix }}
+        run: curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install | sh -s -- --daemon
+
+      - name: Setup minix filesystem (Nix)
+        if: ${{ matrix.use-nix }}
+        run: sudo /nix/var/nix/profiles/default/bin/nix run --extra-experimental-features "nix-command flakes" --ignore-env -k HOME ./workspace#setup -- --no-sudo
+
+      - name: Test (Nix)
+        if: ${{ matrix.use-nix }}
+        run: sudo /nix/var/nix/profiles/default/bin/nix run --extra-experimental-features "nix-command flakes" --ignore-env ./workspace#test -- --no-sudo
