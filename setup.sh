@@ -56,8 +56,9 @@ if [ "$build" = "y" ]
 then
     if [ -z "$branch" ]
     then
-        branch="linux-msft-wsl-$(uname -r | cut -d "-" -f 1)"
-        echo "Using automatically detected kernel version: $1"
+        kernel_version="$(uname -r | cut -d "-" -f 1)"
+        branch="linux-msft-wsl-$kernel_version"
+        echo "Using automatically detected kernel version: $kernel_version"
     fi
 
     kernel_dir="$cache_dir/wsl2-linux-kernel"
