@@ -53,6 +53,15 @@
               ${./setup.sh} --cache-dir "$HOME"/.cache/wsl2-minix-fs "$@"
             '';
           };
+
+          test = pkgs.writeShellApplication {
+            name = "test";
+            runtimeInputs = with pkgs; [
+              coreutils
+              util-linux
+            ];
+            text = builtins.readFile ./test.sh;
+          };
         }
       );
     };
