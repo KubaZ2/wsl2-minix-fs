@@ -39,7 +39,7 @@ The setup script also accepts optional arguments (for Nix, they need to be prepe
 - `--branch <branch>`: Specify a branch to build from (by default it is detected automatically based on your WSL2 kernel version)
 - `--no-load`: Do not load the Minix kernel module after building it
 - `--no-sudo`: Do not use sudo for commands that require root privileges
-- `--cache-dir <path>`: Specify a directory to cache the built module (by default it is cached in `$HOME/.cache/wsl2-minix-fs` for Nix-based setup, or the script directory otherwise)
+- `--cache-dir <path>`: Specify a directory to cache the built module (by default it is cached in `$HOME/.cache/wsl2-minix-fs` for Nix-based setup, or `cache` directory alongside the setup script otherwise)
 - `-h`/`--help`: Show help message
 
 After a reboot, you will need to rerun the setup script to load the Minix kernel module again. You could make it run automatically on startup if you want to.
