@@ -102,13 +102,13 @@ then
     exit 0
 fi
 
-if $sudo rmmod -f minix >/dev/null 2>&1
+if $sudo $(which rmmod) -f minix >/dev/null 2>&1
 then
     echo "Unloaded module minix"
 fi
 
 echo "Loading module minix..."
 
-$sudo insmod "$cache_dir/minix.ko"
+$sudo $(which insmod) "$cache_dir/minix.ko"
 
 echo "Loaded module minix"
