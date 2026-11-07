@@ -7,6 +7,9 @@ while [ $# -gt 0 ]
 do
     case "$1" in
         --no-sudo) sudo="";;
+        -h|--help)
+            echo "Usage: $(basename "$0") [--no-sudo] [-h|--help]"
+            exit 0;;
         *)
             echo "Unknown option '$1', exiting..." >&2
             exit 1;;
