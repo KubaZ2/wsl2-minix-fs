@@ -40,7 +40,6 @@
 
               kmod
             ];
-            extraShellCheckFlags = [ "-x" ];
 
             text =
               let
@@ -53,7 +52,9 @@
               export C_INCLUDE_PATH="${c_include_path}"
               export LIBRARY_PATH="${library_path}"
 
-              . ${./setup.sh} --cache-dir "$HOME"/.cache/wsl2-minix-fs "$@"
+              set -- --cache-dir "$HOME"/.cache/wsl2-minix-fs "$@"
+
+              ${builtins.readFile ./setup.sh}
             '';
           };
 
