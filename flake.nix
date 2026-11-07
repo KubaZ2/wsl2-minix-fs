@@ -44,9 +44,11 @@
             text =
               let
                 libs = with pkgs; [ elfutils openssl zlib ];
+                pkg_config_path = pkgs.lib.makeSearchPathOutput "dev" "lib/pkgconfig" libs;
                 c_include_path = pkgs.lib.makeSearchPathOutput "dev" "include" libs;
                 library_path = pkgs.lib.makeSearchPathOutput "out" "lib" libs;
               in ''
+              export PKG_CONFIG_PATH="${pkg_config_path}"
               export C_INCLUDE_PATH="${c_include_path}"
               export LIBRARY_PATH="${library_path}"
 
