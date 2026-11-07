@@ -19,7 +19,7 @@ test_dir="/tmp/minix-fs-test"
 cleanup() {
     echo "Cleaning up..."
 
-    $sudo $(which umount) "$test_dir/mnt" || true
+    $sudo $(command -v umount) "$test_dir/mnt" || true
     rm -rf "$test_dir"
 
     echo "Finished cleaning up"
@@ -34,7 +34,7 @@ mkfs.minix "$test_dir/minix.img"
 echo "Created minix filesystem image"
 
 mkdir -p "$test_dir/mnt"
-$sudo $(which mount) -o loop "$test_dir/minix.img" "$test_dir/mnt"
+$sudo $(command -v mount) -o loop "$test_dir/minix.img" "$test_dir/mnt"
 
 echo "Mounted minix filesystem image"
 
